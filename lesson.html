@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GHA Lab · Lesson</title>
+<style>
+:root{--bg:#080a0f;--panel:#10131a;--panel2:#151923;--line:#252b38;--text:#f4f5f7;--muted:#a8afbd;--accent:#b9a3ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.65 Inter,system-ui,sans-serif}
+.wrap{max-width:1050px;margin:auto;padding:28px 22px}a{color:var(--accent);text-decoration:none}
+.nav{display:flex;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{font-weight:900;color:white}
+#lesson{padding-top:25px}.loading{color:var(--muted);padding:60px 0}.error{padding:20px;border:1px solid #713044;border-radius:12px;color:#fecdd3;background:#2b0b15}
+@media(max-width:700px){.wrap{padding:22px 16px}}
+</style>
+</head>
+<body>
+<header class="wrap nav"><a class="brand" href="index.html">⚡ GHA Lab</a><a href="index.html#learn">← Learning Path</a></header>
+<main class="wrap"><div id="lesson" class="loading">Loading lesson…</div></main>
+<script>
+const API='https://tcenymmcidmtetggannf.supabase.co/functions/v1/content';
+const slug=new URLSearchParams(location.search).get('slug');
+async function load(){
+  const root=document.getElementById('lesson');
+  if(!slug){root.className='error';root.textContent='No lesson selected.';return;}
+  try{
+    const r=await fetch(API+'?slug='+encodeURIComponent(slug),{headers:{Accept:'application/json'}});
+    if(!r.ok)throw new Error('Lesson service returned '+r.status);
+    const x=await r.json();
+    document.title=x.title+' · GHA Lab';
+    root.className='';
+    root.innerHTML=x.content_html;
+  }catch(e){
+    root.className='error';
+    root.textContent='Could not load this lesson: '+e.message;
+  }
+}
+load();
+</script>
+</body>
+</html>
