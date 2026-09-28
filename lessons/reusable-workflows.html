@@ -1,32 +1,17 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Reusable Workflows & Actions · GHA Lab</title><style>
-:root{--bg:#080a0f;--panel:#10131a;--panel2:#151923;--line:#252b38;--text:#f4f5f7;--muted:#a8afbd;--accent:#b9a3ff}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 Inter,system-ui,sans-serif}.wrap{max-width:1000px;margin:auto;padding:28px 22px}a{color:var(--accent);text-decoration:none}.nav{display:flex;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{font-weight:900;color:white}.hero{padding:55px 0 35px}.eyebrow{text-transform:uppercase;letter-spacing:.12em;color:var(--accent);font-size:12px;font-weight:800}.hero h1{font-size:48px;line-height:1.05;margin:8px 0 14px}.hero p{color:var(--muted);font-size:18px;max-width:760px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}.card h3{margin-top:0}.card p{color:var(--muted)}pre{background:#05070b;border:1px solid var(--line);border-radius:12px;padding:18px;overflow:auto;color:#dce1ea}.steps{display:grid;gap:12px;margin:24px 0}.step{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}.step h3{margin:0 0 6px}.step p{margin:0;color:var(--muted)}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.btn{display:inline-block;border:1px solid var(--line);padding:11px 16px;border-radius:9px;background:var(--panel);font-weight:800}.primary{background:var(--accent);color:#080a0f;border-color:var(--accent)}.footer{border-top:1px solid var(--line);margin-top:45px;padding-top:24px;color:var(--muted)}@media(max-width:700px){.hero h1{font-size:36px}.grid{grid-template-columns:1fr}}
-</style></head><body><header class="wrap nav"><a class="brand" href="../index.html">⚡ GHA Lab</a><a href="../index.html#learn">← Learning Path</a></header>
-<main class="wrap"><section class="hero"><div class="eyebrow">15 min · LESSON</div><h1>Reusable Workflows & Actions</h1><p>workflow_call, inputs, outputs, composite actions and shared CI/CD building blocks.</p></section>
-<section class="grid"><div class="card"><h3>Mental model</h3><p><strong>caller → reusable workflow → contract</strong></p><p>Learn the execution model first. Syntax comes second.</p></div><div class="card"><h3>Today's build</h3><p>Extract deployment logic into a reusable workflow, define an input, then break the contract and fix it.</p></div></section>
-<section class="steps">
-<div class="step"><h3>① Understand</h3><p>What is GitHub responsible for? What is executed by the runner? What information crosses the boundary? Write the flow in plain English before touching YAML.</p></div>
-<div class="step"><h3>② See it</h3><p>Use a tiny workflow and inspect the run summary, job graph, logs, contexts and generated outputs. Don't just read the YAML — observe what it produces.</p></div>
-<div class="step"><h3>③ Build it</h3><p>Extract deployment logic into a reusable workflow, define an input, then break the contract and fix it.</p></div>
-<div class="step"><h3>④ Break it</h3><p>Change exactly one assumption on purpose. Make a trigger not match, a dependency fail, an output disappear, a permission become too restrictive, or an environment gate intervene.</p></div>
-<div class="step"><h3>⑤ Fix it</h3><p>Form one hypothesis → gather evidence → make one change → rerun → explain the root cause. The explanation is part of the exercise.</p></div>
-</section>
-<h2>Mini workflow</h2><pre>name: learning-lab
-
-on:
-  workflow_dispatch:
-
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Reusable Workflows · GHA Lab</title><style>:root{--bg:#080a0f;--panel:#10131a;--line:#252b38;--text:#f4f5f7;--muted:#a8afbd;--accent:#b9a3ff;--good:#8fe3b0;--bad:#ff9d9d}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.65 Inter,system-ui,sans-serif}.wrap{max-width:1050px;margin:auto;padding:28px 22px}a{color:var(--accent);text-decoration:none}.nav{display:flex;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{font-weight:900;color:white}.hero{padding:55px 0 35px}.eyebrow,.label{text-transform:uppercase;letter-spacing:.1em;color:var(--accent);font-size:12px;font-weight:800}.hero h1{font-size:48px;line-height:1.05;margin:8px 0 14px}.hero p{color:var(--muted);font-size:18px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.card,.step,.scenario{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}.card p,.step p,.scenario p{color:var(--muted)}.steps{display:grid;gap:14px;margin:28px 0}.flow,pre{background:#05070b;border:1px solid var(--line);border-radius:12px;padding:18px;overflow:auto}.flow{text-align:center;white-space:pre-wrap;font-weight:800}.callout{border-left:3px solid var(--accent);padding:12px 16px;background:#151923}.answer{border-left:3px solid var(--good);padding:12px 16px;background:#151923}.break{border-left:3px solid var(--bad);padding:12px 16px;background:#151923}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.btn{display:inline-block;border:1px solid var(--line);padding:11px 16px;border-radius:9px;background:var(--panel);font-weight:800}.primary{background:var(--accent);color:#080a0f}.footer{border-top:1px solid var(--line);margin-top:45px;padding-top:24px;color:var(--muted)}@media(max-width:700px){.hero h1{font-size:36px}.grid{grid-template-columns:1fr}}</style></head><body><header class="wrap nav"><a class="brand" href="../index.html">⚡ GHA Lab</a><a href="../index.html#learn">← Learning Path</a></header><main class="wrap"><section class="hero"><div class="eyebrow">12 min · LESSON</div><h1>Reusable Workflows</h1><p>Turn repeated CI/CD YAML into a stable interface with inputs, secrets and outputs.</p></section><section class="grid"><div class="card"><div class="label">Mental model</div><h3>caller → reusable workflow → contract → implementation</h3><p>Learn the execution model first. Syntax comes second.</p></div><div class="card"><div class="label">Today's build</div><p>Create a reusable deployment workflow and call it from another workflow without copy-pasting deployment logic.</p></div></section><section class="step"><div class="label">01 · Understand</div><h2>A reusable workflow is an API</h2><div class=flow>repo A ─┐
+repo B ─┼→ shared deploy workflow
+repo C ─┘</div><p>The caller expresses intent. The reusable workflow owns implementation. Inputs, secrets and outputs become the interface.</p></section><section class="step"><div class="label">02 · Define it</div><h2>Use workflow_call</h2><pre>on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
 jobs:
-  learn:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Inspect the runner
-        run: |
-          echo "OS=$RUNNER_OS"
-          echo "Architecture=$RUNNER_ARCH"
-          pwd
-          echo "Hello from the runner"</pre>
-<div class="actions"><a class="btn primary" href="../index.html#challenges">Try a Challenge →</a><a class="btn" href="https://docs.github.com/en/actions" target="_blank" rel="noopener">Official GitHub Actions docs ↗</a></div>
-<footer class="footer">Next: solve a scenario, then move to the next lesson. <a href="../index.html#learn">Back to Learning Path</a></footer></main></body></html>
+      - run: echo "Deploying &#36;{{ inputs.environment }}"</pre></section><section class="step"><div class="label">03 · Call it</div><h2>Keep callers small</h2><pre>jobs:
+  deploy:
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: production</pre><p>The caller does not need to duplicate the deployment steps.</p></section><section class="step"><div class="label">04 · Break it</div><h2>Breaking the interface</h2><p>Rename an input in the reusable workflow and leave callers unchanged. The implementation may still be valid, but the contract has changed.</p><div class=break>Think of reusable workflows as APIs: input names, required fields, secrets and outputs need compatibility thinking.</div></section><section class="step"><div class="label">05 · Fix it</div><h2>Centralisation creates blast radius</h2><p>A shared workflow can remove huge amounts of duplication, but a bad change can affect many repositories. Validate the shared workflow and introduce changes deliberately.</p></section><section class="scenario"><div class="label">Final challenge</div><h2>Five repositories share deployment logic. What Actions feature is designed for that?</h2><p>Don't look it up yet. Explain what you would inspect and why.</p><details><summary>Reveal the answer</summary><div class="answer"><code>workflow_call</code> reusable workflows. They provide a callable interface instead of copied YAML.</div></details></section><div class="actions"><a class="btn primary" href="../index.html#challenges">Try Challenge Arena →</a><a class="btn" href="https://docs.github.com/en/actions" target="_blank" rel="noopener">Official GitHub Actions docs ↗</a></div><footer class="footer">Back to <a href="../index.html#learn">Learning Path</a></footer></main></body></html>
