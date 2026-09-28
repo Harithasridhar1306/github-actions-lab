@@ -28,16 +28,7 @@ html[data-theme="light"] .code{background:#f0f2f6;color:#263044}html[data-theme=
 
 <section id="why" class="section"><h2>Why learn GitHub Actions?</h2><p class="intro">Because real CI/CD problems rarely look like textbook examples.</p><div class="grid"><article class="card"><span class="tag">AUTOMATION</span><h3>Build repeatable delivery</h3><p>Automate validation, builds, tests and deployments instead of relying on manual steps.</p></article><article class="card"><span class="tag">DEBUGGING</span><h3>Learn from failures</h3><p>Understand why a workflow failed, where execution stopped and what GitHub did behind the YAML.</p></article><article class="card"><span class="tag">PLATFORM</span><h3>Design reusable pipelines</h3><p>Move from one-off workflows to reusable workflows, secure permissions and platform patterns.</p></article></div></section>
 
-<section id="learn" class="section"><h2>Learning path</h2><div class="path">
-<a class="module" href="https://harithasridhar1306.github.io/github-actions-lab/lessons/workflow-foundations.html" target="_blank" rel="noopener"><div class="num">01</div><div><h3>Workflow Foundations</h3><p>Events, workflow files, runs, jobs, steps, actions and runners.</p><span class="module-cta">10 min lesson · open →</span></div><span class="level">BEGINNER</span></a>
-<a class="module" href="https://harithasridhar1306.github.io/github-actions-lab/lessons/execution-dependencies.html" target="_blank" rel="noopener"><div class="num">02</div><div><h3>Execution & Dependencies</h3><p>needs, parallelism, job IDs, outputs, status functions and execution order.</p><span class="module-cta">12 min lesson · open →</span></div><span class="level">BEGINNER</span></a>
-<a class="module" href="https://harithasridhar1306.github.io/github-actions-lab/lessons/expressions-contexts.html" target="_blank" rel="noopener"><div class="num">03</div><div><h3>Expressions & Contexts</h3><p>github, env, vars, secrets, inputs, steps, jobs and conditional logic.</p><span class="module-cta">12 min lesson · open →</span></div><span class="level">BEGINNER → INTERMEDIATE</span></a>
-<a class="module" href="https://harithasridhar1306.github.io/github-actions-lab/lessons/matrix-artifacts-cache.html" target="_blank" rel="noopener"><div class="num">04</div><div><h3>Matrix, Artifacts & Cache</h3><p>Fan-out/fan-in, artifacts, dependency caching and efficient pipelines.</p><span class="module-cta">15 min lesson · open →</span></div><span class="level">INTERMEDIATE</span></a>
-<a class="module" href="https://harithasridhar1306.github.io/github-actions-lab/lessons/reusable-workflows.html" target="_blank" rel="noopener"><div class="num">05</div><div><h3>Reusable Workflows & Actions</h3><p>workflow_call, inputs, outputs, composite actions and shared CI/CD building blocks.</p><span class="module-cta">15 min lesson · open →</span></div><span class="level">INTERMEDIATE</span></a>
-<a class="module" href="https://harithasridhar1306.github.io/github-actions-lab/lessons/environments-deployments.html" target="_blank" rel="noopener"><div class="num">06</div><div><h3>Environments & Deployments</h3><p>Approvals, environment protection, deployment flow and release controls.</p><span class="module-cta">12 min lesson · open →</span></div><span class="level">INTERMEDIATE</span></a>
-<a class="module" href="https://harithasridhar1306.github.io/github-actions-lab/lessons/security-oidc.html" target="_blank" rel="noopener"><div class="num">07</div><div><h3>Security & OIDC</h3><p>Least privilege, GITHUB_TOKEN permissions, secrets and cloud federation.</p><span class="module-cta">15 min lesson · open →</span></div><span class="level">ADVANCED</span></a>
-<a class="module" href="https://harithasridhar1306.github.io/github-actions-lab/lessons/production-debugging.html" target="_blank" rel="noopener"><div class="num">08</div><div><h3>Production Debugging</h3><p>Concurrency, flaky failures, self-hosted runners, logs and incident-style diagnosis.</p><span class="module-cta">15 min lesson · open →</span></div><span class="level">ADVANCED</span></a>
-</div></section>
+<section id="learn" class="section"><h2>Learning path</h2><div id="learningPath" class="path"><div class="meta">Loading the learning path…</div></div></section>
 
 <section id="challenges" class="section"><h2>🧪 Challenge Arena</h2><p class="intro">Fresh, server-generated scenarios — no hard-coded question bank in the browser. Pick a level, solve, get an explanation, then move to the next scenario.</p>
 <div class="filters"><button class="filter active" onclick="setFilter('all',this)">All</button><button class="filter" onclick="setFilter('beginner',this)">Beginner</button><button class="filter" onclick="setFilter('intermediate',this)">Intermediate</button><button class="filter" onclick="setFilter('advanced',this)">Advanced</button><button class="filter" onclick="setFilter('security',this)">Security</button></div>
@@ -51,6 +42,7 @@ html[data-theme="light"] .code{background:#f0f2f6;color:#263044}html[data-theme=
 <footer class="wrap footer">GitHub Actions Lab · Learn by building, breaking and fixing.</footer>
 <script>
 const API_BASE = window.GHA_LAB_API_BASE || 'https://tcenymmcidmtetggannf.supabase.co/functions/v1';
+const CONTENT_API = 'https://tcenymmcidmtetggannf.supabase.co/functions/v1/content';
 let filter='all',pool=[],idx=0,score=0,answered=false,loading=false;
 
 function setFilter(f,el){
@@ -138,6 +130,29 @@ function answer(i,b){
 function nextQuestion(){idx++;loadQuestion()}
 function skipQuestion(){idx++;loadQuestion()}
 loadQuestion();
+
+async function loadLearningPath(){
+  const root=document.getElementById('learningPath');
+  try{
+    const response=await fetch(CONTENT_API,{headers:{'Accept':'application/json'}});
+    if(!response.ok)throw new Error('Content service returned '+response.status);
+    const data=await response.json();
+    root.innerHTML='';
+    data.lessons.forEach((lesson,i)=>{
+      const a=document.createElement('a');
+      a.className='module';
+      a.href='lesson.html?slug='+encodeURIComponent(lesson.slug);
+      const num=String(i+1).padStart(2,'0');
+      a.innerHTML='<div class="num">'+num+'</div><div><h3></h3><p></p><span class="module-cta">'+lesson.duration_minutes+' min lesson · open →</span></div><span class="level">'+(lesson.level||'LESSON').toUpperCase()+'</span>';
+      a.querySelector('h3').textContent=lesson.title;
+      a.querySelector('p').textContent=lesson.description;
+      root.appendChild(a);
+    });
+  }catch(error){
+    root.innerHTML='<div class="meta">Learning path unavailable: '+error.message+'</div>';
+  }
+}
+loadLearningPath();
 
 </script>
 
