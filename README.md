@@ -74,18 +74,5 @@ Visitor names are optional. The analytics system does not intentionally collect 
 
 Analytics data is available only through the authenticated admin dashboard.
 
-## AI architecture
-
-The public site does not contain an AI API key.
-
-The project is designed so that future AI-powered explanations, hints, or content generation can run through a server-side endpoint without exposing provider credentials in browser code.
-
-## Contributing
-
-Found a better explanation, a broken workflow, or a useful challenge? Open a pull request.
-
-The goal is to make GitHub Actions easier to understand through practical, realistic engineering scenarios.
-
----
 
 Built with GitHub Pages, GitHub Actions, and Supabase.
