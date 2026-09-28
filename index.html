@@ -14,6 +14,7 @@ html[data-theme="light"]{--bg:#f7f8fc;--panel:#ffffff;--panel2:#eef1f7;--text:#1
 html[data-theme="light"] .code{background:#f0f2f6;color:#263044}html[data-theme="light"] .kw{color:#7c3aed}html[data-theme="light"] .cm{color:#667085}
 .theme-toggle{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel);color:var(--text);padding:7px 10px;border-radius:999px;cursor:pointer;font:inherit;font-size:13px;font-weight:750}.theme-icon{font-size:15px}
 </style>
+<script src="analytics.js"></script>
 </head>
 <body>
 <header class="wrap nav"><a class="brand" href="#">⚡ GHA<span> Lab</span></a><nav><button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light and dark mode"><span class="theme-icon">☀️</span><span id="themeLabel">Light</span></button><a href="#why">Why</a><a href="#learn">Learning Path</a><a href="#challenges">Challenges</a><a href="#refs">References</a></nav></header>
@@ -112,6 +113,7 @@ function answer(i,b){
   const x=pool[0];
   const correctIndex=Number.isInteger(x.correctIndex)?x.correctIndex:x.correct_answer_index;
   const feedback=document.getElementById('feedback');
+  if(window.GHALabAnalytics)GHALabAnalytics.track('challenge_attempt',{metadata:{level:x.level||filter,title:x.title,correct:i===correctIndex}});
   if(i===correctIndex){
     score++;
     b.classList.add('correct');
