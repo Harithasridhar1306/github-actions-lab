@@ -1,26 +1,26 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="GitHub Actions Lab — learn GitHub Actions by building, breaking, debugging and understanding workflows.">
-  <title>GitHub Actions Lab</title>
-  <style>
-    :root{--bg:#070a12;--panel:#0d1220;--panel2:#111827;--text:#eef2ff;--muted:#98a2b3;--line:#263044;--accent:#8b5cf6;--accent2:#22d3ee;--good:#34d399;--warn:#fbbf24;--bad:#fb7185;--shadow:0 20px 60px rgba(0,0,0,.28)}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}button,textarea{font:inherit}.wrap{max-width:1180px;margin:auto;padding:0 24px}.nav{height:72px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{font-weight:800;letter-spacing:-.03em}.brand span{color:var(--accent2)}.nav a{color:var(--muted);text-decoration:none;margin-left:22px;font-size:14px}.nav a:hover{color:var(--text)}.hero{padding:80px 0 64px;display:grid;grid-template-columns:1.15fr .85fr;gap:50px;align-items:center}.eyebrow{color:var(--accent2);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase}.hero h1{font-size:clamp(42px,7vw,76px);line-height:.98;letter-spacing:-.065em;margin:16px 0 22px}.hero h1 em{font-style:normal;color:var(--accent)}.hero p{color:var(--muted);font-size:18px;max-width:650px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.btn{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:11px 16px;border-radius:10px;cursor:pointer;text-decoration:none;font-weight:700}.btn.primary{background:var(--accent);border-color:var(--accent)}.btn:hover{transform:translateY(-1px)}.terminal{background:#05070c;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}.dots{padding:12px 14px;border-bottom:1px solid #1b2230}.dots i{display:inline-block;width:9px;height:9px;border-radius:50%;background:#475467;margin-right:6px}.code{padding:22px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#c7d2fe;white-space:pre;overflow:auto}.kw{color:#c084fc}.str{color:#86efac}.cm{color:#667085}.section{padding:52px 0}.section h2{font-size:30px;letter-spacing:-.035em;margin:0 0 8px}.section-intro{color:var(--muted);margin:0 0 24px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}.card h3{margin:0 0 8px;font-size:18px}.card p{margin:0;color:var(--muted);font-size:14px}.tag{display:inline-block;font-size:11px;padding:4px 8px;border:1px solid var(--line);border-radius:999px;color:#c4b5fd;margin-bottom:14px}.lab{display:grid;grid-template-columns:1fr 1fr;gap:18px}.box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}.box h3{margin-top:0}.challenge pre,.yaml{background:#060913;border:1px solid #20293b;border-radius:10px;padding:16px;overflow:auto;font:13px/1.65 ui-monospace,SFMono-Regular,Menlo,monospace;color:#dbe4ff}.option{width:100%;text-align:left;background:var(--panel2);border:1px solid var(--line);color:var(--text);padding:12px;border-radius:9px;margin-top:8px;cursor:pointer}.option:hover{border-color:#7c3aed}.result{margin-top:14px;padding:12px;border-radius:9px;display:none}.result.good{display:block;border:1px solid #176b4e;background:#06251c;color:#a7f3d0}.result.bad{display:block;border:1px solid #713044;background:#2b0b15;color:#fecdd3}.cheat{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row{display:flex;justify-content:space-between;gap:20px;padding:13px 0;border-bottom:1px solid var(--line);font-size:14px}.row code{color:#a5b4fc}.tutor textarea{width:100%;min-height:180px;background:#060913;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:15px;resize:vertical}.output{margin-top:12px;background:#060913;border:1px solid var(--line);border-radius:10px;padding:16px;color:var(--muted);white-space:pre-wrap;display:none}.footer{border-top:1px solid var(--line);padding:34px 0 60px;color:var(--muted);font-size:13px}.pill{display:inline-flex;gap:8px;align-items:center;color:#cbd5e1;font-size:12px;border:1px solid var(--line);padding:7px 10px;border-radius:999px;margin-top:16px}.dot{width:7px;height:7px;border-radius:50%;background:var(--good)}@media(max-width:800px){.hero{grid-template-columns:1fr;padding-top:52px}.grid,.lab,.cheat{grid-template-columns:1fr}.nav a{display:none}.hero h1{font-size:48px}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="GitHub Actions Lab — learn GitHub Actions by building, breaking, fixing and understanding workflows.">
+<title>GitHub Actions Lab</title>
+<style>
+:root{--bg:#070a12;--panel:#0d1220;--panel2:#111827;--text:#eef2ff;--muted:#98a2b3;--line:#263044;--accent:#8b5cf6;--cyan:#22d3ee;--good:#34d399}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.6}a{text-decoration:none;color:inherit}.wrap{max-width:1180px;margin:auto;padding:0 24px}.nav{height:72px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{font-weight:850;font-size:18px}.brand span{color:var(--cyan)}nav a{color:var(--muted);margin-left:20px;font-size:14px}nav a:hover{color:var(--text)}
+.hero{padding:78px 0 60px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}.eyebrow{color:var(--cyan);font-size:12px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}.hero h1{font-size:clamp(44px,7vw,76px);line-height:.98;letter-spacing:-.065em;margin:15px 0 22px}.hero h1 em{font-style:normal;color:var(--accent)}.hero p{color:var(--muted);font-size:18px;max-width:680px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}.btn{display:inline-block;border:1px solid var(--line);background:var(--panel);color:var(--text);padding:10px 15px;border-radius:10px;font-weight:750;cursor:pointer}.primary{background:var(--accent);border-color:var(--accent)}.terminal{background:#05070c;border:1px solid var(--line);border-radius:16px;overflow:hidden}.dots{padding:12px 14px;border-bottom:1px solid #1b2230}.dots i{display:inline-block;width:9px;height:9px;border-radius:50%;background:#475467;margin-right:6px}.code{padding:22px;font:13px/1.7 ui-monospace,monospace;color:#c7d2fe;white-space:pre;overflow:auto}.kw{color:#c084fc}.str{color:#86efac}.cm{color:#667085}
+.section{padding:54px 0}.section h2{font-size:32px;letter-spacing:-.04em;margin:0 0 7px}.intro{color:var(--muted);margin:0 0 24px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.card,.box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:21px}.card h3{margin:7px 0}.card p,.box p{color:var(--muted);font-size:14px}.tag{display:inline-block;font-size:10px;padding:4px 8px;border:1px solid var(--line);border-radius:999px;color:#c4b5fd}.number{color:var(--cyan);font-weight:800}.path{display:grid;gap:10px}.module{display:grid;grid-template-columns:70px 1fr auto;gap:16px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}.module .num{font-size:24px;font-weight:850;color:var(--accent)}.module h3{margin:0}.module p{margin:3px 0 0;color:var(--muted);font-size:13px}.level{font-size:11px;color:#cbd5e1;border:1px solid var(--line);padding:5px 8px;border-radius:999px}.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}.list{margin:12px 0 0;padding-left:20px;color:var(--muted);font-size:14px}.list li{margin:7px 0}.callout{border-left:3px solid var(--cyan);padding:14px 17px;background:#0a1620;border-radius:8px;color:#cbd5e1}.refs a{color:#c4b5fd}.footer{border-top:1px solid var(--line);padding:34px 0 60px;color:var(--muted);font-size:13px}
+@media(max-width:800px){.hero,.two{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.module{grid-template-columns:50px 1fr}.level{display:none}nav{display:none}.hero{padding-top:50px}}
+</style>
 </head>
 <body>
-  <header class="wrap nav"><div class="brand">⚡ GHA<span> Lab</span></div><nav><a href="#learn">Learn</a><a href="#challenge">Challenges</a><a href="#cheatsheet">Cheatsheet</a><a href="#tutor">AI Tutor</a></nav></header>
-  <main class="wrap">
-    <section class="hero">
-      <div><div class="eyebrow">GitHub Actions · learn by doing</div><h1>Build it.<br><em>Break it.</em><br>Understand it.</h1><p>An open learning lab for GitHub Actions — practical workflows, production-style challenges, debugging, visualization and an AI-ready tutor.</p><div class="actions"><a class="btn primary" href="#learn">Start learning →</a><a class="btn" href="#challenge">Try a challenge</a></div><div class="pill"><span class="dot"></span> Static, open and GitHub Pages friendly</div></div>
-      <div class="terminal"><div class="dots"><i></i><i></i><i></i></div><div class="code"><span class="cm"># your first workflow</span>
+<header class="wrap nav"><a class="brand" href="#">⚡ GHA<span> Lab</span></a><nav><a href="#why">Why</a><a href="#learn">Learning Path</a><a href="#use">How to use</a><a href="#challenge">Challenges</a><a href="#refs">References</a></nav></header>
+<main class="wrap">
+<section class="hero">
+<div><div class="eyebrow">GitHub Actions · learn by doing</div><h1>Build it.<br><em>Break it.</em><br>Understand it.</h1><p>A practical GitHub Actions learning lab that takes you from your first workflow to production-style CI/CD, security, reusable workflows and debugging.</p><div class="actions"><a class="btn primary" href="#learn">Start the learning path →</a><a class="btn" href="#use">How to use this lab</a></div></div>
+<div class="terminal"><div class="dots"><i></i><i></i><i></i></div><div class="code"><span class="cm"># your first workflow</span>
 <span class="kw">name:</span> CI
-
-<span class="kw">on:</span>
-  push:
-    branches: [main]
+<span class="kw">on:</span> [push]
 
 <span class="kw">jobs:</span>
   build:
@@ -28,18 +28,33 @@
     <span class="kw">steps:</span>
       - <span class="kw">uses:</span> actions/checkout@v4
       - <span class="kw">run:</span> npm test</div></div>
-    </section>
+</section>
 
-    <section id="learn" class="section"><h2>Learning path</h2><p class="section-intro">Short modules that build toward production-grade CI/CD.</p><div class="grid">
-      <article class="card"><span class="tag">01 · FOUNDATIONS</span><h3>Workflows & runners</h3><p>Events, workflow runs, jobs, steps, actions and what the runner actually executes.</p></article>
-      <article class="card"><span class="tag">02 · CORE</span><h3>Contexts & expressions</h3><p>Variables, secrets, contexts, expressions, conditions, outputs and dependencies.</p></article>
-      <article class="card"><span class="tag">03 · SCALE</span><h3>Matrix & artifacts</h3><p>Fan-out builds, caching, artifacts and patterns for efficient pipelines.</p></article>
-      <article class="card"><span class="tag">04 · PLATFORM</span><h3>Reusable workflows</h3><p>Build shared CI/CD building blocks with reusable workflows and composite actions.</p></article>
-      <article class="card"><span class="tag">05 · SECURITY</span><h3>Permissions & OIDC</h3><p>Least privilege, GITHUB_TOKEN permissions and cloud authentication without long-lived keys.</p></article>
-      <article class="card"><span class="tag">06 · PRODUCTION</span><h3>Debug & operate</h3><p>Concurrency, environments, deployments, self-hosted runners and incident-style troubleshooting.</p></article>
-    </div></section>
+<section id="why" class="section"><h2>Why learn GitHub Actions?</h2><p class="intro">Because CI/CD is more than memorising YAML syntax.</p><div class="grid">
+<article class="card"><span class="tag">AUTOMATION</span><h3>Ship repeatably</h3><p>Automate build, test, validation and deployment steps so the same process runs consistently.</p></article>
+<article class="card"><span class="tag">ENGINEERING</span><h3>Understand the runner</h3><p>Learn what GitHub actually creates and executes when a workflow starts — not just what the YAML looks like.</p></article>
+<article class="card"><span class="tag">PRODUCTION</span><h3>Operate safely</h3><p>Learn permissions, environments, secrets, OIDC, concurrency and failure handling before using them in real pipelines.</p></article>
+</div></section>
 
-    <section id="challenge" class="section"><h2>🧪 Challenge: fix the dependency</h2><p class="section-intro">Don't memorize it. Diagnose it.</p><div class="lab"><div class="box challenge"><span class="tag">INTERMEDIATE · JOBS</span><pre>jobs:
+<section id="learn" class="section"><h2>Learning path</h2><p class="intro">Follow the modules in order, or jump directly to the concept you need.</p><div class="path">
+<div class="module"><div class="num">01</div><div><h3>Workflow Foundations</h3><p>Events, workflow files, runs, jobs, steps, actions and runners.</p></div><span class="level">BEGINNER</span></div>
+<div class="module"><div class="num">02</div><div><h3>Jobs, Steps & Execution</h3><p>Job IDs, needs, execution order, exit codes, shells and job outputs.</p></div><span class="level">BEGINNER</span></div>
+<div class="module"><div class="num">03</div><div><h3>Expressions & Contexts</h3><p>github, env, vars, secrets, inputs, steps, jobs and expression syntax.</p></div><span class="level">BEGINNER → INTERMEDIATE</span></div>
+<div class="module"><div class="num">04</div><div><h3>Matrix, Artifacts & Cache</h3><p>Fan-out/fan-in builds, artifact sharing and dependency caching.</p></div><span class="level">INTERMEDIATE</span></div>
+<div class="module"><div class="num">05</div><div><h3>Reusable Workflows & Actions</h3><p>workflow_call, inputs, outputs, composite actions and platform-level reuse.</p></div><span class="level">INTERMEDIATE</span></div>
+<div class="module"><div class="num">06</div><div><h3>Environments & Deployments</h3><p>Approvals, environment secrets, deployment flow and release controls.</p></div><span class="level">INTERMEDIATE</span></div>
+<div class="module"><div class="num">07</div><div><h3>Security & OIDC</h3><p>GITHUB_TOKEN permissions, least privilege, secrets and cloud federation.</p></div><span class="level">ADVANCED</span></div>
+<div class="module"><div class="num">08</div><div><h3>Production Debugging</h3><p>Failed runs, logs, concurrency, self-hosted runners and incident-style diagnosis.</p></div><span class="level">ADVANCED</span></div>
+</div></section>
+
+<section id="use" class="section"><h2>How to use this lab</h2><p class="intro">The intended loop is simple: learn → build → break → diagnose → fix → explain.</p><div class="two">
+<div class="box"><h3>📚 1. Learn the concept</h3><ul class="list"><li>Read the short explanation.</li><li>See the YAML pattern.</li><li>Check “What actually happens?” for the execution model.</li></ul></div>
+<div class="box"><h3>🛠️ 2. Build it yourself</h3><ul class="list"><li>Create a tiny workflow in a test repository.</li><li>Run it with <code>workflow_dispatch</code>.</li><li>Inspect the run, jobs, steps and logs.</li></ul></div>
+<div class="box"><h3>💥 3. Break it on purpose</h3><ul class="list"><li>Change a job dependency.</li><li>Break an expression or permission.</li><li>Watch the failure instead of immediately looking at the answer.</li></ul></div>
+<div class="box"><h3>🔎 4. Diagnose & explain</h3><ul class="list"><li>Use the challenge hints.</li><li>Fix the workflow.</li><li>Explain why the fix works in your own words.</li></ul></div>
+</div><div class="callout" style="margin-top:16px"><strong>Rule of the lab:</strong> don't just copy the YAML. If you can predict what GitHub will do before you press “Run workflow”, you actually understand it.</div></section>
+
+<section id="challenge" class="section"><h2>🧪 Challenge: fix the dependency</h2><p class="intro">A small failure with a real CI/CD concept behind it.</p><div class="two"><div class="box"><span class="tag">INTERMEDIATE · JOBS</span><pre>jobs:
   build:
     runs-on: ubuntu-latest
     steps:
@@ -49,22 +64,19 @@
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - run: ./deploy.sh</pre><p><strong>What is wrong?</strong></p><button class="option" data-answer="wrong">A. <code>needs</code> cannot be used between jobs</button><button class="option" data-answer="correct">B. <code>test</code> is not a defined job ID</button><button class="option" data-answer="wrong">C. <code>runs-on</code> must be on the workflow</button><button class="option" data-answer="wrong">D. Deploy jobs cannot use shell commands</button><div id="challengeResult" class="result"></div></div><div class="box"><h3>🧠 Why?</h3><p style="color:var(--muted)">The value of <code>needs</code> must reference another <strong>job ID</strong>. Here, only <code>build</code> exists. If deploy should wait for build, it needs:</p><pre class="yaml">deploy:
-  needs: build</pre><p style="color:var(--muted)">Try changing the YAML, then explain the execution order in your own words.</p></div></div></section>
+      - run: ./deploy.sh</pre><p><strong>What is wrong?</strong></p><button class="btn" onclick="check(true)">B. <code>test</code> is not a defined job ID</button> <button class="btn" onclick="check(false)">Another answer</button><div id="answer" style="margin-top:12px;color:var(--good)"></div></div><div class="box"><h3>What should it become?</h3><pre>deploy:
+  needs: build</pre><p><code>needs</code> creates a dependency on another job ID. The deploy job therefore waits for <code>build</code> to complete successfully.</p></div></div></section>
 
-    <section id="cheatsheet" class="section"><h2>⚡ Cheatsheet</h2><p class="section-intro">The things you'll reach for most often.</p><div class="box cheat">
-      <div><div class="row"><span>Manual trigger</span><code>workflow_dispatch</code></div><div class="row"><span>Job dependency</span><code>needs: build</code></div><div class="row"><span>Conditional job</span><code>if: github.ref == ...</code></div><div class="row"><span>Matrix</span><code>strategy.matrix</code></div><div class="row"><span>Secret</span><code>secrets.NAME</code></div></div>
-      <div><div class="row"><span>Workflow output</span><code>jobs.&lt;id&gt;.outputs</code></div><div class="row"><span>Artifact</span><code>actions/upload-artifact</code></div><div class="row"><span>Cache</span><code>actions/cache</code></div><div class="row"><span>Reusable workflow</span><code>workflow_call</code></div><div class="row"><span>Least privilege</span><code>permissions:</code></div></div>
-    </div></section>
-
-    <section id="tutor" class="section tutor"><h2>🤖 AI Tutor</h2><p class="section-intro">Paste a workflow. Get guided analysis without putting an API key in the browser.</p><div class="box"><textarea id="yamlInput" placeholder="Paste your GitHub Actions YAML here..."></textarea><div class="actions"><button class="btn primary" id="analyze">Analyze workflow</button><button class="btn" id="prompt">Create AI prompt</button></div><div id="tutorOutput" class="output"></div></div></section>
-  </main>
-  <footer class="wrap footer">GitHub Actions Lab · Open learning resource · Built with GitHub Pages + GitHub Actions</footer>
-<script>
-  document.querySelectorAll('.option').forEach(b=>b.addEventListener('click',()=>{const r=document.getElementById('challengeResult');if(b.dataset.answer==='correct'){r.className='result good';r.textContent='✓ Correct. needs must reference the ID of another job. Here, build is the only available job ID.'}else{r.className='result bad';r.textContent='Not quite. Look closely at the value of needs — what does it reference? Try again.'}}));
-  const out=document.getElementById('tutorOutput');
-  document.getElementById('analyze').onclick=()=>{const y=document.getElementById('yamlInput').value.trim();if(!y){out.style.display='block';out.textContent='Paste a workflow first.';return}let findings=[];if(!/runs-on\s*:/.test(y))findings.push('⚠️ I could not find a runs-on field. Check that every normal job has a runner.');if(/needs\s*:\s*test/.test(y)&&!/^\s*test\s*:/m.test(y))findings.push('🔴 needs references test, but no test job ID was found.');if(!/permissions\s*:/.test(y))findings.push('🟡 No explicit permissions block found. Consider least-privilege GITHUB_TOKEN permissions.');if(/secrets\./.test(y)&&!/permissions\s*:/.test(y))findings.push('🟡 Secrets are referenced. Review permissions and environment boundaries before production use.');if(!findings.length)findings.push('🟢 No obvious structural issue detected by the local checks. For deeper review, use the generated AI prompt with your preferred provider.');out.style.display='block';out.textContent=findings.join('\n\n')};
-  document.getElementById('prompt').onclick=()=>{const y=document.getElementById('yamlInput').value.trim();out.style.display='block';out.textContent='AI REVIEW PROMPT\n\nAct as a senior GitHub Actions engineer. Analyze the workflow below. Do not rewrite it immediately. First identify: (1) execution flow, (2) correctness issues, (3) security/permissions risks, (4) maintainability concerns, (5) production reliability concerns. Explain each finding and give a minimal fix. Distinguish confirmed issues from suggestions.\n\nWORKFLOW:\n'+(y||'[paste YAML here]')};
-</script>
+<section id="refs" class="section refs"><h2>📖 References & next steps</h2><p class="intro">Use official documentation as the source of truth when the lab and a platform detail ever differ.</p><div class="grid">
+<article class="card"><span class="tag">OFFICIAL</span><h3>GitHub Actions Docs</h3><p><a href="https://docs.github.com/en/actions">Core concepts, syntax, runners, workflows and guides →</a></p></article>
+<article class="card"><span class="tag">REFERENCE</span><h3>Workflow Syntax</h3><p><a href="https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax">Complete workflow YAML reference →</a></p></article>
+<article class="card"><span class="tag">SECURITY</span><h3>OIDC & Security</h3><p><a href="https://docs.github.com/en/actions/security-for-github-actions">Permissions, secrets and secure authentication →</a></p></article>
+<article class="card"><span class="tag">BUILD</span><h3>Starter Workflows</h3><p><a href="https://github.com/actions/starter-workflows">Real workflow examples maintained in GitHub's starter-workflows repository →</a></p></article>
+<article class="card"><span class="tag">LAB</span><h3>Cheatsheet</h3><p><a href="cheatsheet.md">Quick syntax patterns for day-to-day use →</a></p></article>
+<article class="card"><span class="tag">REPO</span><h3>Source code</h3><p><a href="https://github.com/Harithasridhar1306/github-actions-lab">Explore, fork and contribute to this lab →</a></p></article>
+</div></section>
+</main>
+<footer class="wrap footer">GitHub Actions Lab · Open learning resource · Built with GitHub Pages + GitHub Actions</footer>
+<script>function check(ok){const a=document.getElementById('answer');a.textContent=ok?'✓ Correct — needs must point to an existing job ID.':'Not quite — inspect the job IDs before looking at the steps.'}</script>
 </body>
 </html>
