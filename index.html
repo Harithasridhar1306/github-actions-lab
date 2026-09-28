@@ -37,7 +37,7 @@ html[data-theme="light"] .code{background:#f0f2f6;color:#263044}html[data-theme=
 
 <section class="section"><h2>How the challenge engine works</h2><div class="two"><div class="box"><h3>🎯 Scenario-based</h3><p>Questions should look like problems an engineer actually sees: a deploy runs too early, a matrix explodes into 12 jobs, a secret is unavailable, OIDC authentication fails, or a cache unexpectedly misses.</p></div><div class="box"><h3>🧠 Explain, don't guess</h3><p>Every answer has an explanation, the underlying GitHub Actions concept and a “what actually happens?” note. The goal is transferable understanding.</p></div><div class="box"><h3>📈 Adaptive later</h3><p>The browser only renders questions returned by the server-side challenge API. Question generation, source retrieval and validation stay outside the static site.</p></div><div class="box"><h3>🤖 AI-ready later</h3><p>The backend can generate fresh challenges from current technical sources, validate them, store useful analytics and keep every API key server-side — never in the browser.</p></div></div></section>
 
-<section id="refs" class="section refs"><h2>📖 References</h2><p class="intro">The question bank should be grounded in authoritative documentation.</p><div class="grid"><article class="card"><span class="tag">OFFICIAL</span><h3>GitHub Actions Docs</h3><p><a href="https://docs.github.com/en/actions">Concepts, guides and reference →</a></p></article><article class="card"><span class="tag">SYNTAX</span><h3>Workflow Syntax</h3><p><a href="https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax">YAML reference →</a></p></article><article class="card"><span class="tag">SECURITY</span><h3>Security for Actions</h3><p><a href="https://docs.github.com/en/actions/security-for-github-actions">Permissions, secrets and OIDC →</a></p></article><article class="card"><span class="tag">EXAMPLES</span><h3>Starter Workflows</h3><p><a href="https://github.com/actions/starter-workflows">Workflow examples →</a></p></article></div></section>
+<section id="refs" class="section refs"><h2>📖 References</h2><p class="intro">Authoritative resources served from the content database.</p><div id="referencesGrid" class="grid"><div class="meta">Loading references…</div></div></section>
 </main>
 <footer class="wrap footer">GitHub Actions Lab · Learn by building, breaking and fixing.</footer>
 <script>
@@ -153,6 +153,30 @@ async function loadLearningPath(){
   }
 }
 loadLearningPath();
+
+async function loadReferences(){
+  const root=document.getElementById('referencesGrid');
+  try{
+    const response=await fetch(CONTENT_API+'?type=resources',{headers:{'Accept':'application/json'}});
+    if(!response.ok)throw new Error('Content service returned '+response.status);
+    const data=await response.json();
+    root.innerHTML='';
+    data.resources.forEach(item=>{
+      const article=document.createElement('article');
+      article.className='card';
+      article.innerHTML='<span class="tag"></span><h3></h3><p><a target="_blank" rel="noopener">Open resource →</a></p>';
+      article.querySelector('.tag').textContent=item.tag;
+      article.querySelector('h3').textContent=item.title;
+      const a=article.querySelector('a');
+      a.href=item.url;
+      a.textContent=item.description;
+      root.appendChild(article);
+    });
+  }catch(error){
+    root.innerHTML='<div class="meta">References unavailable: '+error.message+'</div>';
+  }
+}
+loadReferences();
 
 </script>
 
