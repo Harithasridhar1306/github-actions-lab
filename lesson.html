@@ -5,12 +5,24 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>GHA Lab · Lesson</title>
 <style>
-:root{--bg:#080a0f;--panel:#10131a;--panel2:#151923;--line:#252b38;--text:#f4f5f7;--muted:#a8afbd;--accent:#b9a3ff}
+:root{--bg:#080a0f;--panel:#10131a;--panel2:#151923;--line:#252b38;--text:#f4f5f7;--muted:#a8afbd;--accent:#b9a3ff;--good:#34d399;--bad:#fb7185}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.65 Inter,system-ui,sans-serif}
 .wrap{max-width:1050px;margin:auto;padding:28px 22px}a{color:var(--accent);text-decoration:none}
 .nav{display:flex;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{font-weight:900;color:white}
 #lesson{padding-top:25px}.loading{color:var(--muted);padding:60px 0}.error{padding:20px;border:1px solid #713044;border-radius:12px;color:#fecdd3;background:#2b0b15}
-@media(max-width:700px){.wrap{padding:22px 16px}}
+.interactive{margin-top:34px;border:1px solid var(--line);border-radius:18px;background:var(--panel);overflow:hidden}
+.interactive-head{padding:22px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:18px;align-items:center}
+.interactive-head h2{margin:0 0 3px}.interactive-head p{margin:0;color:var(--muted);font-size:13px}
+.progress{height:6px;background:#1b2130}.progress i{display:block;height:100%;width:0;background:var(--accent);transition:.25s}
+.lab-body{padding:24px}.lab-stage{display:none}.lab-stage.active{display:block}.stage-tag{font-size:11px;font-weight:850;letter-spacing:.1em;color:var(--accent);text-transform:uppercase}
+.lab-stage h3{font-size:24px;margin:6px 0}.prompt{font-size:17px;font-weight:700;margin:0 0 16px}
+.options{display:grid;gap:9px}.option{width:100%;text-align:left;border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:13px 14px;border-radius:10px;cursor:pointer;font:inherit}.option:hover{border-color:var(--accent)}.option.correct{border-color:var(--good);background:#06251c}.option.wrong{border-color:var(--bad);background:#2b0b15}
+.code{margin:15px 0;padding:15px;background:#05070c;border:1px solid var(--line);border-radius:10px;font:13px/1.6 ui-monospace,monospace;white-space:pre-wrap;overflow:auto;color:#e5e7eb}
+.feedback{display:none;margin-top:15px;padding:13px;border-radius:10px;font-size:14px}.feedback.show{display:block}.feedback.good{background:#06251c;color:#a7f3d0;border:1px solid #176b4e}.feedback.bad{background:#2b0b15;color:#fecdd3;border:1px solid #713044}
+.lab-actions{display:flex;justify-content:space-between;gap:10px;margin-top:20px}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:10px 14px;border-radius:9px;cursor:pointer;font-weight:750}.btn.primary{background:var(--accent);border-color:var(--accent);color:#120b24}
+.complete{padding:28px;text-align:center}.complete h3{font-size:28px;margin:0 0 8px}.complete p{color:var(--muted)}
+.lesson-footer{margin-top:28px;padding:18px 0;border-top:1px solid var(--line);color:var(--muted)}
+@media(max-width:700px){.wrap{padding:22px 16px}.interactive-head,.lab-body{padding:18px}.interactive-head{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
 <body>
@@ -19,6 +31,56 @@
 <script>
 const API='https://tcenymmcidmtetggannf.supabase.co/functions/v1/content';
 const slug=new URLSearchParams(location.search).get('slug');
+
+function esc(value){
+  return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function renderLab(items){
+  if(!Array.isArray(items)||!items.length)return '';
+  const stages=items.map((x,i)=>{
+    const opts=(x.options||[]).map((o,j)=>'<button type="button" class="option" data-answer="'+j+'">'+esc(o)+'</button>').join('');
+    return '<section class="lab-stage'+(i===0?' active':'')+'" data-stage="'+i+'"><div class="stage-tag">'+esc(x.type||'challenge')+' · '+(i+1)+' / '+items.length+'</div><h3>'+esc(x.title)+'</h3><p class="prompt">'+esc(x.prompt)+'</p>'+(x.code?'<pre class="code">'+esc(x.code)+'</pre>':'')+'<div class="options">'+opts+'</div><div class="feedback"></div></section>';
+  }).join('');
+  return '<section class="interactive" id="interactiveLab"><div class="interactive-head"><div><h2>🧪 Try it, break it, debug it</h2><p>Don’t just read the concept. Make a prediction, inspect a failure, and explain the fix.</p></div><strong id="labScore">0 / '+items.length+'</strong></div><div class="progress"><i id="labProgress"></i></div><div class="lab-body">'+stages+'<section class="complete" data-stage="complete"><h3>Lesson complete ✓</h3><p>You worked through the interactive lab. The goal is not memorisation — it is learning to reason about what Actions actually does.</p><a class="btn primary" href="index.html#challenges">Continue to Challenge Arena →</a></section><div class="lab-actions"><button class="btn" id="labPrev" type="button">← Previous</button><button class="btn primary" id="labNext" type="button">Next →</button></div></div></section>';
+}
+function initLab(items){
+  const lab=document.getElementById('interactiveLab'); if(!lab)return;
+  let stage=0,score=0;
+  const stages=[...lab.querySelectorAll('.lab-stage')];
+  const complete=lab.querySelector('[data-stage="complete"]');
+  const prev=lab.querySelector('#labPrev'),next=lab.querySelector('#labNext'),bar=lab.querySelector('#labProgress'),scoreEl=lab.querySelector('#labScore');
+  const answered=new Array(items.length).fill(false);
+  function show(n){
+    stage=n;
+    stages.forEach((s,i)=>s.classList.toggle('active',i===stage));
+    complete.classList.remove('active');
+    prev.disabled=stage===0;
+    next.textContent=stage===items.length-1?'Finish lab →':'Next →';
+    bar.style.width=((stage/items.length)*100)+'%';
+    scoreEl.textContent=score+' / '+items.length;
+  }
+  stages.forEach((section,i)=>{
+    section.querySelectorAll('.option').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        if(answered[i])return;
+        answered[i]=true;
+        const selected=Number(btn.dataset.answer), correct=Number(items[i].correct);
+        section.querySelectorAll('.option').forEach((b,j)=>{if(j===correct)b.classList.add('correct');});
+        const feedback=section.querySelector('.feedback');
+        if(selected===correct){score++;btn.classList.add('correct');feedback.className='feedback show good';feedback.textContent='✓ Correct. '+(items[i].explanation||'');}
+        else{btn.classList.add('wrong');feedback.className='feedback show bad';feedback.textContent='Not quite. '+(items[i].explanation||'');}
+        scoreEl.textContent=score+' / '+items.length;
+      });
+    });
+  });
+  prev.addEventListener('click',()=>{if(stage>0)show(stage-1);});
+  next.addEventListener('click',()=>{
+    if(stage<items.length-1){show(stage+1);return;}
+    stages.forEach(s=>s.classList.remove('active'));complete.classList.add('active');next.disabled=true;bar.style.width='100%';scoreEl.textContent=score+' / '+items.length;
+  });
+  show(0);
+}
+
 async function load(){
   const root=document.getElementById('lesson');
   if(!slug){root.className='error';root.textContent='No lesson selected.';return;}
@@ -28,7 +90,8 @@ async function load(){
     const x=await r.json();
     document.title=x.title+' · GHA Lab';
     root.className='';
-    root.innerHTML=x.content_html;
+    root.innerHTML=x.content_html+renderLab(x.interactive)+ '<div class="lesson-footer">Back to <a href="index.html#learn">Learning Path</a></div>';
+    initLab(x.interactive);
   }catch(e){
     root.className='error';
     root.textContent='Could not load this lesson: '+e.message;
