@@ -50,29 +50,94 @@ html[data-theme="light"] .code{background:#f0f2f6;color:#263044}html[data-theme=
 </main>
 <footer class="wrap footer">GitHub Actions Lab · Learn by building, breaking and fixing.</footer>
 <script>
-const bank=[
-{level:'beginner',tag:'FOUNDATIONS',title:'The workflow never starts',q:'You push to main, but nothing runs. The workflow file is valid and lives under .github/workflows/. What should you inspect first?',o:['Whether the workflow has a matching on trigger for the event','Whether runs-on is ubuntu-latest','Whether every job has a needs field','Whether artifacts are enabled'],a:0,e:'A workflow only runs when an event matches its configured trigger. Check the on section and the event/branch/path filters.'},
-{level:'beginner',tag:'JOBS',title:'Deploy is running too early',q:'build and test are separate jobs. deploy starts immediately instead of waiting for both. Which change expresses the dependency?',o:['needs: [build, test]','depends: [build, test]','waits-for: build,test','if: build && test'],a:0,e:'needs creates job dependencies. An array makes deploy wait for both build and test.'},
-{level:'beginner',tag:'RUNNERS',title:'Where did the command run?',q:'A step says run: uname -a. What executes that command in a normal GitHub-hosted job?',o:['The GitHub Actions runner assigned to the job','The GitHub web server','The repository git server','The developer’s laptop'],a:0,e:'The job is assigned to a runner. The runner executes the shell commands and actions for the job.'},
-{level:'beginner',tag:'EXPRESSIONS',title:'Why did the condition fail?',q:'You want a deploy only on the main branch. Which expression checks the current ref?',o:['github.ref == \'refs/heads/main\'','branch == main','git.branch == main','workflow.branch == main'],a:0,e:'The github context exposes ref. For a push to main, github.ref is refs/heads/main.'},
-{level:'intermediate',tag:'MATRIX',title:'One test becomes twelve',q:'A matrix has 3 OS values and 4 Node versions. How many matrix jobs are created?',o:['7','12','4','3'],a:1,e:'A matrix combines each value across dimensions: 3 × 4 = 12 combinations.'},
-{level:'intermediate',tag:'OUTPUTS',title:'Passing data between jobs',q:'A build step calculates an image tag. You need that value in deploy. What is the intended pattern?',o:['Step output → job output → needs.<job>.outputs','Write it to the repository automatically','Use secrets for every output','Use github.output'],a:0,e:'A step can expose an output, the job can map that to a job output, and a dependent job can read it through needs.<job>.outputs.'},
-{level:'intermediate',tag:'ARTIFACTS',title:'The file vanished',q:'A build creates dist/app.zip. A later job needs the file. The jobs use separate runners. What should you use?',o:['An artifact upload/download flow','A local /tmp path','The runner hostname','Only needs'],a:0,e:'Jobs can run on different runners. Uploading an artifact makes the file available to a later job.'},
-{level:'intermediate',tag:'CACHE',title:'Why is the cache not magic?',q:'A cache hit restores dependencies. Does it mean the workflow can skip the dependency installation step automatically?',o:['Yes, always','No — the workflow still needs logic that uses the restored dependencies appropriately','Only on pull_request','Only with self-hosted runners'],a:1,e:'Caching restores stored files; it does not automatically redesign your workflow. Your steps still need to use the restored state correctly.'},
-{level:'intermediate',tag:'REUSABLE',title:'Copy-paste everywhere',q:'Five repositories share the same deployment logic. Which Actions feature is designed to centralize a workflow interface?',o:['workflow_call reusable workflows','actions/checkout','matrix.include','GITHUB_ENV'],a:0,e:'Reusable workflows can define inputs, secrets and outputs and be called from other workflows.'},
-{level:'advanced',tag:'SECURITY',title:'Long-lived cloud keys',q:'A workflow needs cloud access. Which approach avoids storing a long-lived cloud credential as a repository secret?',o:['OIDC-based short-lived federation','Commit the key into the repo','Put the key in a workflow comment','Base64-encode the key'],a:0,e:'OIDC can let the workflow obtain short-lived cloud credentials through a trust relationship instead of storing a long-lived key.'},
-{level:'security',tag:'PERMISSIONS',title:'The token can do too much',q:'A workflow only needs to read repository contents. What principle should guide GITHUB_TOKEN permissions?',o:['Grant everything for convenience','Least privilege — grant only required permissions','Disable all permissions and hope checkout works','Use a personal access token instead'],a:1,e:'Least privilege reduces blast radius. Start restrictive and add only permissions required by the workflow.'},
-{level:'security',tag:'OIDC',title:'OIDC trust fails',q:'Your cloud provider receives an OIDC token, but the exchange is rejected. Which area is especially important to inspect?',o:['The identity provider trust conditions and token claims/attribute mapping','The README title','The runner wallpaper','The artifact filename'],a:0,e:'OIDC authentication depends on the trust policy matching claims from the GitHub-issued token, including configured subject or attribute conditions.'},
-{level:'advanced',tag:'CONCURRENCY',title:'Two deployments race',q:'Two pushes arrive quickly and both deployments start. You want only the newest deployment to continue. Which feature should you investigate?',o:['concurrency with cancel-in-progress','matrix only','artifacts','checkout'],a:0,e:'Concurrency groups can serialize runs and optionally cancel an in-progress run when a newer run enters the same group.'},
-{level:'advanced',tag:'FAILURE',title:'The job is skipped',q:'A deploy job has needs: test. test fails. Why might deploy be skipped even though deploy itself has no failing command?',o:['A failed dependency prevents the dependent job from running by default','GitHub randomly skips deploy jobs','Artifacts cause skips','runs-on disables dependent jobs'],a:0,e:'A job that needs another job normally runs only when its dependencies complete successfully, unless conditional logic changes that behavior.'},
-{level:'advanced',tag:'DEBUGGING',title:'Works locally, fails in Actions',q:'A script works on your machine but fails in a GitHub-hosted runner. Which investigation is most useful first?',o:['Compare OS, shell, environment variables, working directory, permissions and installed tools','Delete the workflow','Add random sleeps','Disable all security'],a:0,e:'The runner environment is part of the execution context. Compare assumptions about OS, shell, PATH, files, permissions and installed dependencies.'}
-];
-let filter='all',pool=[],idx=0,score=0,answered=false;
-function setFilter(f,el){filter=f;document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));el.classList.add('active');pool=bank.filter(x=>f==='all'||x.level===f);idx=0;score=0;render()}
-function render(){if(!pool.length)pool=bank.slice();const x=pool[idx%pool.length];answered=false;document.getElementById('qTag').textContent=x.tag+' · '+x.level.toUpperCase();document.getElementById('qTitle').textContent=x.title;document.getElementById('qText').textContent=x.q;document.getElementById('score').textContent='Score: '+score+' / '+Math.min(idx,pool.length);document.getElementById('bar').style.width=((idx%pool.length)/pool.length*100)+'%';const o=document.getElementById('options');o.innerHTML='';x.o.forEach((v,i)=>{const b=document.createElement('button');b.className='option';b.innerHTML=String.fromCharCode(65+i)+'. '+v;b.onclick=()=>answer(i,b);o.appendChild(b)});const f=document.getElementById('feedback');f.className='feedback';f.textContent=''}
-function answer(i,b){if(answered)return;answered=true;const x=pool[idx%pool.length];const f=document.getElementById('feedback');if(i===x.a){score++;b.classList.add('correct');f.className='feedback show good';f.textContent='✓ Correct. '+x.e}else{b.classList.add('wrong');f.className='feedback show bad';f.textContent='Not quite. '+x.e}document.getElementById('score').textContent='Score: '+score+' / '+(idx+1)}
-function nextQuestion(){idx++;render()}function skipQuestion(){idx++;render()}
-pool=bank.slice();render();
+const API_BASE = window.GHA_LAB_API_BASE || '/api';
+let filter='all',pool=[],idx=0,score=0,answered=false,loading=false;
+
+function setFilter(f,el){
+  filter=f;
+  document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  idx=0; score=0;
+  loadQuestion();
+}
+
+function renderLoading(message='Loading a fresh challenge…'){
+  document.getElementById('qTag').textContent='DYNAMIC · '+filter.toUpperCase();
+  document.getElementById('qTitle').textContent=message;
+  document.getElementById('qText').textContent='Questions are generated server-side from current, trusted technical sources.';
+  document.getElementById('options').innerHTML='<div class="meta">Fetching a new scenario…</div>';
+  document.getElementById('feedback').className='feedback';
+  document.getElementById('feedback').textContent='';
+  document.getElementById('score').textContent='Score: '+score+' / '+idx;
+  document.getElementById('bar').style.width='0%';
+}
+
+async function loadQuestion(){
+  if(loading)return;
+  loading=true; answered=false; renderLoading();
+  try{
+    const params=new URLSearchParams();
+    if(filter!=='all')params.set('level',filter);
+    params.set('fresh','true');
+    const response=await fetch(API_BASE+'/challenges?'+params.toString(),{headers:{'Accept':'application/json'}});
+    if(!response.ok)throw new Error('Challenge service returned '+response.status);
+    const x=await response.json();
+    if(!x || !x.title || !Array.isArray(x.options) || x.options.length<2)throw new Error('Invalid challenge payload');
+    pool=[x];
+    renderQuestion(x);
+  }catch(error){
+    document.getElementById('qTag').textContent='DYNAMIC ENGINE';
+    document.getElementById('qTitle').textContent='Challenge service not connected yet';
+    document.getElementById('qText').textContent='The question bank is intentionally not stored in this GitHub repository. Connect the server-side challenge API to load fresh questions.';
+    document.getElementById('options').innerHTML='<div class="meta">No question content is bundled in the browser. This prevents stale questions and keeps the generation/search layer server-side.</div>';
+    document.getElementById('feedback').className='feedback show bad';
+    document.getElementById('feedback').textContent='Dynamic source unavailable: '+error.message;
+    document.getElementById('score').textContent='Score: '+score+' / '+idx;
+    document.getElementById('bar').style.width='0%';
+  }finally{loading=false}
+}
+
+function renderQuestion(x){
+  answered=false;
+  document.getElementById('qTag').textContent=(x.tag||'CHALLENGE')+' · '+(x.level||filter).toUpperCase();
+  document.getElementById('qTitle').textContent=x.title;
+  document.getElementById('qText').textContent=x.question;
+  document.getElementById('score').textContent='Score: '+score+' / '+idx;
+  document.getElementById('bar').style.width='0%';
+  const o=document.getElementById('options'); o.innerHTML='';
+  x.options.forEach((v,i)=>{
+    const b=document.createElement('button');
+    b.className='option';
+    b.textContent=String.fromCharCode(65+i)+'. '+v;
+    b.onclick=()=>answer(i,b);
+    o.appendChild(b);
+  });
+  const feedback=document.getElementById('feedback');
+  feedback.className='feedback'; feedback.textContent='';
+}
+
+function answer(i,b){
+  if(answered)return;
+  answered=true;
+  const x=pool[0];
+  const correctIndex=Number.isInteger(x.correctIndex)?x.correctIndex:x.correct_answer_index;
+  const feedback=document.getElementById('feedback');
+  if(i===correctIndex){
+    score++;
+    b.classList.add('correct');
+    feedback.className='feedback show good';
+    feedback.textContent='✓ Correct. '+(x.explanation||'');
+  }else{
+    b.classList.add('wrong');
+    feedback.className='feedback show bad';
+    feedback.textContent='Not quite. '+(x.explanation||'Review the underlying concept and try another scenario.');
+  }
+  document.getElementById('score').textContent='Score: '+score+' / '+(idx+1);
+}
+
+function nextQuestion(){idx++;loadQuestion()}
+function skipQuestion(){idx++;loadQuestion()}
+loadQuestion();
 
 </script>
 
