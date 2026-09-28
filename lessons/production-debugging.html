@@ -1,32 +1,17 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Production Debugging · GHA Lab</title><style>
-:root{--bg:#080a0f;--panel:#10131a;--panel2:#151923;--line:#252b38;--text:#f4f5f7;--muted:#a8afbd;--accent:#b9a3ff}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 Inter,system-ui,sans-serif}.wrap{max-width:1000px;margin:auto;padding:28px 22px}a{color:var(--accent);text-decoration:none}.nav{display:flex;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{font-weight:900;color:white}.hero{padding:55px 0 35px}.eyebrow{text-transform:uppercase;letter-spacing:.12em;color:var(--accent);font-size:12px;font-weight:800}.hero h1{font-size:48px;line-height:1.05;margin:8px 0 14px}.hero p{color:var(--muted);font-size:18px;max-width:760px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}.card h3{margin-top:0}.card p{color:var(--muted)}pre{background:#05070b;border:1px solid var(--line);border-radius:12px;padding:18px;overflow:auto;color:#dce1ea}.steps{display:grid;gap:12px;margin:24px 0}.step{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}.step h3{margin:0 0 6px}.step p{margin:0;color:var(--muted)}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.btn{display:inline-block;border:1px solid var(--line);padding:11px 16px;border-radius:9px;background:var(--panel);font-weight:800}.primary{background:var(--accent);color:#080a0f;border-color:var(--accent)}.footer{border-top:1px solid var(--line);margin-top:45px;padding-top:24px;color:var(--muted)}@media(max-width:700px){.hero h1{font-size:36px}.grid{grid-template-columns:1fr}}
-</style></head><body><header class="wrap nav"><a class="brand" href="../index.html">⚡ GHA Lab</a><a href="../index.html#learn">← Learning Path</a></header>
-<main class="wrap"><section class="hero"><div class="eyebrow">15 min · LESSON</div><h1>Production Debugging</h1><p>Concurrency, flaky failures, self-hosted runners, logs and incident-style diagnosis.</p></section>
-<section class="grid"><div class="card"><h3>Mental model</h3><p><strong>event → graph → runner → step → dependency</strong></p><p>Learn the execution model first. Syntax comes second.</p></div><div class="card"><h3>Today's build</h3><p>Create a controlled failure and debug it with evidence: one hypothesis, one change, one rerun.</p></div></section>
-<section class="steps">
-<div class="step"><h3>① Understand</h3><p>What is GitHub responsible for? What is executed by the runner? What information crosses the boundary? Write the flow in plain English before touching YAML.</p></div>
-<div class="step"><h3>② See it</h3><p>Use a tiny workflow and inspect the run summary, job graph, logs, contexts and generated outputs. Don't just read the YAML — observe what it produces.</p></div>
-<div class="step"><h3>③ Build it</h3><p>Create a controlled failure and debug it with evidence: one hypothesis, one change, one rerun.</p></div>
-<div class="step"><h3>④ Break it</h3><p>Change exactly one assumption on purpose. Make a trigger not match, a dependency fail, an output disappear, a permission become too restrictive, or an environment gate intervene.</p></div>
-<div class="step"><h3>⑤ Fix it</h3><p>Form one hypothesis → gather evidence → make one change → rerun → explain the root cause. The explanation is part of the exercise.</p></div>
-</section>
-<h2>Mini workflow</h2><pre>name: learning-lab
-
-on:
-  workflow_dispatch:
-
-jobs:
-  learn:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Inspect the runner
-        run: |
-          echo "OS=$RUNNER_OS"
-          echo "Architecture=$RUNNER_ARCH"
-          pwd
-          echo "Hello from the runner"</pre>
-<div class="actions"><a class="btn primary" href="../index.html#challenges">Try a Challenge →</a><a class="btn" href="https://docs.github.com/en/actions" target="_blank" rel="noopener">Official GitHub Actions docs ↗</a></div>
-<footer class="footer">Next: solve a scenario, then move to the next lesson. <a href="../index.html#learn">Back to Learning Path</a></footer></main></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Production Debugging · GHA Lab</title><style>:root{--bg:#080a0f;--panel:#10131a;--line:#252b38;--text:#f4f5f7;--muted:#a8afbd;--accent:#b9a3ff;--good:#8fe3b0;--bad:#ff9d9d}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.65 Inter,system-ui,sans-serif}.wrap{max-width:1050px;margin:auto;padding:28px 22px}a{color:var(--accent);text-decoration:none}.nav{display:flex;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{font-weight:900;color:white}.hero{padding:55px 0 35px}.eyebrow,.label{text-transform:uppercase;letter-spacing:.1em;color:var(--accent);font-size:12px;font-weight:800}.hero h1{font-size:48px;line-height:1.05;margin:8px 0 14px}.hero p{color:var(--muted);font-size:18px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.card,.step,.scenario{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}.card p,.step p,.scenario p{color:var(--muted)}.steps{display:grid;gap:14px;margin:28px 0}.flow,pre{background:#05070b;border:1px solid var(--line);border-radius:12px;padding:18px;overflow:auto}.flow{text-align:center;white-space:pre-wrap;font-weight:800}.callout{border-left:3px solid var(--accent);padding:12px 16px;background:#151923}.answer{border-left:3px solid var(--good);padding:12px 16px;background:#151923}.break{border-left:3px solid var(--bad);padding:12px 16px;background:#151923}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.btn{display:inline-block;border:1px solid var(--line);padding:11px 16px;border-radius:9px;background:var(--panel);font-weight:800}.primary{background:var(--accent);color:#080a0f}.footer{border-top:1px solid var(--line);margin-top:45px;padding-top:24px;color:var(--muted)}@media(max-width:700px){.hero h1{font-size:36px}.grid{grid-template-columns:1fr}}</style></head><body><header class="wrap nav"><a class="brand" href="../index.html">⚡ GHA Lab</a><a href="../index.html#learn">← Learning Path</a></header><main class="wrap"><section class="hero"><div class="eyebrow">15 min · LESSON</div><h1>Production Debugging</h1><p>Diagnose Actions failures like an engineer: classify the symptom, form a hypothesis, gather evidence, then change one thing.</p></section><section class="grid"><div class="card"><div class="label">Mental model</div><h3>symptom → hypothesis → evidence → smallest change → rerun</h3><p>Learn the execution model first. Syntax comes second.</p></div><div class="card"><div class="label">Today's build</div><p>Work through trigger, skip, runner, permission and dependency failures without YAML whack-a-mole.</p></div></section><section class="step"><div class="label">01 · Classify first</div><h2>What state are you actually seeing?</h2><div class=flow>didn't trigger?
+queued?
+skipped?
+failed?
+cancelled?
+succeeded but wrong?</div><p>These states point to different layers. A skipped job and a failed shell command are not the same problem.</p></section><section class="step"><div class="label">02 · Scenario</div><h2>Works locally, fails in Actions</h2><pre>echo "OS=$RUNNER_OS"
+echo "shell=$SHELL"
+pwd
+which terraform || true
+terraform version || true</pre><p>Compare the runner's OS, shell, PATH, tools, files and permissions with your local assumptions.</p></section><section class="step"><div class="label">03 · Scenario</div><h2>The deploy job is skipped</h2><pre>deploy:
+  needs: [build, test]
+  if: &#36;{{ success() }}</pre><p>Trace upstream. Did build or test fail? Was a job skipped? Did an <code>if</code> condition evaluate false?</p></section><section class="step"><div class="label">04 · Scenario</div><h2>Permission denied</h2><p>Inspect the workflow's <code>permissions</code> and the identity being used. Avoid immediately replacing a scoped mechanism with a broader credential.</p><div class=break>Make the smallest permission change that tests your hypothesis.</div></section><section class="step"><div class="label">05 · Fix it</div><h2>Use the hypothesis loop</h2><div class=flow>1. State symptom
+2. One hypothesis
+3. One piece of evidence
+4. One change
+5. Rerun
+6. Explain root cause</div><p>If you change five things at once, you may fix the workflow without learning why it failed.</p></section><section class="scenario"><div class="label">Final challenge</div><h2>A script works locally but fails on a GitHub-hosted runner. What do you compare first?</h2><p>Don't look it up yet. Explain what you would inspect and why.</p><details><summary>Reveal the answer</summary><div class="answer">OS, shell, PATH, working directory, permissions and installed tools. The runner is part of the execution environment.</div></details></section><div class="actions"><a class="btn primary" href="../index.html#challenges">Try Challenge Arena →</a><a class="btn" href="https://docs.github.com/en/actions" target="_blank" rel="noopener">Official GitHub Actions docs ↗</a></div><footer class="footer">Back to <a href="../index.html#learn">Learning Path</a></footer></main></body></html>
