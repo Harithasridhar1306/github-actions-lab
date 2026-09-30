@@ -1,106 +1,16 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GHA Lab · Lesson</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DevOps Lab · Lesson</title>
 <style>
-:root{--bg:#080a0f;--panel:#10131a;--panel2:#151923;--line:#252b38;--text:#f4f5f7;--muted:#a8afbd;--accent:#b9a3ff;--good:#34d399;--bad:#fb7185}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.65 Inter,system-ui,sans-serif}
-.wrap{max-width:1050px;margin:auto;padding:28px 22px}a{color:var(--accent);text-decoration:none}
-.nav{display:flex;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{font-weight:900;color:white}
-#lesson{padding-top:25px}.loading{color:var(--muted);padding:60px 0}.error{padding:20px;border:1px solid #713044;border-radius:12px;color:#fecdd3;background:#2b0b15}
-.interactive{margin-top:34px;border:1px solid var(--line);border-radius:18px;background:var(--panel);overflow:hidden}.interactive-head{min-width:0}.interactive-head>div{min-width:0}.interactive-head h2{line-height:1.25}.interactive-head p{line-height:1.5}.scenario{margin-top:28px}.scenario details{margin-top:16px}.scenario summary{cursor:pointer;color:var(--accent);font-weight:750}.scenario .answer{margin-top:12px;padding:13px 15px;background:var(--panel2);border:1px solid var(--line);border-radius:10px}.actions{display:flex;gap:14px;flex-wrap:wrap;margin:30px 0 12px;padding-top:4px}.actions .btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px}.footer{margin-top:20px;padding:18px 0;border-top:1px solid var(--line);color:var(--muted)}.footer a{display:inline-block;margin-left:6px}
-.interactive-head{padding:22px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:18px;align-items:center}
-.interactive-head h2{margin:0 0 3px}.interactive-head p{margin:0;color:var(--muted);font-size:13px}
-.progress{height:6px;background:#1b2130}.progress i{display:block;height:100%;width:0;background:var(--accent);transition:.25s}
-.lab-body{padding:24px}.lab-stage{display:none}.lab-stage.active{display:block}.stage-tag{font-size:11px;font-weight:850;letter-spacing:.1em;color:var(--accent);text-transform:uppercase}
-.lab-stage h3{font-size:24px;margin:6px 0}.prompt{font-size:17px;font-weight:700;margin:0 0 16px}
-.options{display:grid;gap:9px}.option{width:100%;text-align:left;border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:13px 14px;border-radius:10px;cursor:pointer;font:inherit}.option:hover{border-color:var(--accent)}.option.correct{border-color:var(--good);background:#06251c}.option.wrong{border-color:var(--bad);background:#2b0b15}
-.code{margin:15px 0;padding:15px;background:#05070c;border:1px solid var(--line);border-radius:10px;font:13px/1.6 ui-monospace,monospace;white-space:pre-wrap;overflow:auto;color:#e5e7eb}
-.feedback{display:none;margin-top:15px;padding:13px;border-radius:10px;font-size:14px}.feedback.show{display:block}.feedback.good{background:#06251c;color:#a7f3d0;border:1px solid #176b4e}.feedback.bad{background:#2b0b15;color:#fecdd3;border:1px solid #713044}
-.lab-actions{display:flex;justify-content:space-between;gap:10px;margin-top:20px}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:10px 14px;border-radius:9px;cursor:pointer;font-weight:750}.btn.primary{background:var(--accent);border-color:var(--accent);color:#120b24}
-.complete{display:none;padding:28px;text-align:center}.complete.active{display:block}.complete h3{font-size:28px;margin:0 0 8px}.complete p{color:var(--muted)}
-.lesson-footer{margin-top:42px;padding:22px 0;border-top:1px solid var(--line);color:var(--muted);display:flex;gap:14px;flex-wrap:wrap;align-items:center}.lesson-footer a{display:inline-block;padding:8px 12px;border:1px solid var(--line);border-radius:9px;background:var(--panel2)}.actions{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0 8px;align-items:center}.actions .btn{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap}.footer{margin-top:18px;padding:18px 0;border-top:1px solid var(--line);color:var(--muted)}.footer a{display:inline-block;margin-left:6px}
-@media(max-width:700px){.wrap{padding:22px 16px}.interactive-head,.lab-body{padding:18px}.interactive-head{align-items:flex-start;flex-direction:column}}
-</style>
-<script src="analytics.js"></script>
-</head>
-<body>
-<header class="wrap nav"><a class="brand" href="index.html">⚡ GHA Lab</a><a href="index.html#learn">← Learning Path</a></header>
-<main class="wrap"><div id="lesson" class="loading">Loading lesson…</div></main>
+:root{--bg:#070a12;--panel:#0d1220;--panel2:#111827;--line:#263044;--text:#eef2ff;--muted:#98a2b3;--accent:#8b5cf6;--cyan:#22d3ee;--good:#34d399;--bad:#fb7185}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 80% 0%,#171033 0,transparent 34%),var(--bg);color:var(--text);font:15px/1.65 Inter,system-ui,sans-serif}a{color:inherit;text-decoration:none}.wrap{max-width:1050px;margin:auto;padding:24px}.nav{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);height:70px}.brand{font-weight:900}.brand b{color:var(--cyan)}.back{color:var(--muted)}#lesson{padding-top:34px}.error{padding:20px;border:1px solid #713044;border-radius:14px;background:#2b0b15;color:#fecdd3}.content{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px}.content h2{font-size:42px;line-height:1.08;letter-spacing:-.04em;margin:0 0 12px}.content h3{margin-top:30px}.content p,.content li{color:#c2c9d6}.content strong{color:#fff}.interactive{margin-top:22px;background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 20px 60px #0003}.head{padding:22px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:16px}.head h2{margin:0}.head p{margin:3px 0 0;color:var(--muted);font-size:13px}.progress{height:7px;background:#171e2d}.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--cyan));transition:.35s}.stagebar{display:flex;gap:7px;padding:15px 24px;border-bottom:1px solid var(--line);overflow:auto}.stage-dot{min-width:88px;padding:7px 9px;border:1px solid var(--line);border-radius:10px;color:var(--muted);font-size:11px;text-align:center;transition:.2s}.stage-dot.active{border-color:var(--accent);color:#fff;background:#1a1530}.stage-dot.done{border-color:#176b4e;color:#a7f3d0}.body{padding:28px}.stage{display:none;animation:rise .35s ease}.stage.active{display:block}@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}.tag{color:#c4b5fd;font-size:11px;font-weight:850;letter-spacing:.1em;text-transform:uppercase}.stage h3{font-size:27px;margin:7px 0}.prompt{font-size:18px;font-weight:700}.options{display:grid;gap:10px;margin-top:18px}.option{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:13px 15px;border-radius:11px;text-align:left;cursor:pointer;font:inherit;transition:.18s}.option:hover{border-color:var(--accent);transform:translateX(2px)}.option.correct{border-color:var(--good);background:#06251c}.option.wrong{border-color:var(--bad);background:#2b0b15}.feedback{display:none;margin-top:15px;padding:13px;border-radius:11px}.feedback.show{display:block}.feedback.good{background:#06251c;color:#a7f3d0;border:1px solid #176b4e}.feedback.bad{background:#2b0b15;color:#fecdd3;border:1px solid #713044}.actions{display:flex;justify-content:space-between;gap:10px;margin-top:24px}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:10px 15px;border-radius:10px;cursor:pointer;font-weight:800}.primary{background:var(--accent);border-color:var(--accent);color:#10091d}.btn:disabled{opacity:.4;cursor:not-allowed}.visual{margin:22px 0;padding:22px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(135deg,#0d1322,#10172a);overflow:hidden}.flow{display:flex;align-items:center;gap:0;overflow:auto;padding:15px 5px}.node{min-width:125px;padding:16px 12px;border:1px solid #39445c;background:#151c2c;border-radius:13px;text-align:center;font-weight:800;position:relative;animation:pulse 2.4s infinite}.node:not(:last-child):after{content:'→';position:absolute;right:-28px;color:var(--cyan);font-size:22px;animation:arrow 1.5s infinite}.node+.node{margin-left:35px}@keyframes pulse{0%,100%{transform:translateY(0);box-shadow:0 0 0 #8b5cf600}50%{transform:translateY(-4px);box-shadow:0 10px 28px #8b5cf622}}@keyframes arrow{50%{transform:translateX(5px)}}.hint{color:var(--muted);font-size:13px;margin:8px 0 0}.complete{display:none;text-align:center;padding:35px}.complete.show{display:block}.complete h3{font-size:30px}.footer{padding:25px 0;border-top:1px solid var(--line);color:var(--muted);margin-top:25px}@media(max-width:700px){.wrap{padding:18px 15px}.content{padding:21px}.content h2{font-size:32px}.head{flex-direction:column}.body{padding:20px}.stage-dot{min-width:76px}.node{min-width:105px}.flow{padding-bottom:20px}}
+</style><script src="analytics.js"></script></head>
+<body><header class="wrap nav"><a class="brand" href="index.html">DevOps <b>Lab</b></a><a class="back" href="index.html#learn">← Learning Path</a></header><main class="wrap"><div id="lesson">Loading lesson…</div></main>
 <script>
-const API='https://tcenymmcidmtetggannf.supabase.co/functions/v1/content';
-const slug=new URLSearchParams(location.search).get('slug');
-
-function esc(value){
-  return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-function renderLab(items){
-  if(!Array.isArray(items)||!items.length)return '';
-  const stages=items.map((x,i)=>{
-    const opts=(x.options||[]).map((o,j)=>'<button type="button" class="option" data-answer="'+j+'">'+esc(o)+'</button>').join('');
-    return '<section class="lab-stage'+(i===0?' active':'')+'" data-stage="'+i+'"><div class="stage-tag">'+esc(x.type||'challenge')+' · '+(i+1)+' / '+items.length+'</div><h3>'+esc(x.title)+'</h3><p class="prompt">'+esc(x.prompt)+'</p>'+(x.code?'<pre class="code">'+esc(x.code)+'</pre>':'')+'<div class="options">'+opts+'</div><div class="feedback"></div></section>';
-  }).join('');
-  return '<section class="interactive" id="interactiveLab"><div class="interactive-head"><div><h2>🧪 Try it, break it, debug it</h2><p>Don’t just read the concept. Make a prediction, inspect a failure, and explain the fix.</p></div><strong id="labScore">0 / '+items.length+'</strong></div><div class="progress"><i id="labProgress"></i></div><div class="lab-body">'+stages+'<section class="complete" data-stage="complete"><h3>Lesson complete ✓</h3><p>You worked through the interactive lab. The goal is not memorisation — it is learning to reason about what Actions actually does.</p><a class="btn primary" href="index.html#challenges">Continue to Challenge Arena →</a></section><div class="lab-actions"><button class="btn" id="labPrev" type="button">← Previous</button><button class="btn primary" id="labNext" type="button">Next →</button></div></div></section>';
-}
-function initLab(items){
-  const lab=document.getElementById('interactiveLab'); if(!lab)return;
-  let stage=0,score=0;
-  const stages=[...lab.querySelectorAll('.lab-stage')];
-  const complete=lab.querySelector('[data-stage="complete"]');
-  const prev=lab.querySelector('#labPrev'),next=lab.querySelector('#labNext'),bar=lab.querySelector('#labProgress'),scoreEl=lab.querySelector('#labScore');
-  const answered=new Array(items.length).fill(false);
-  function show(n){
-    stage=n;
-    stages.forEach((s,i)=>s.classList.toggle('active',i===stage));
-    complete.classList.remove('active');
-    prev.disabled=stage===0;
-    next.textContent=stage===items.length-1?'Finish lab →':'Next →';
-    bar.style.width=((stage/items.length)*100)+'%';
-    scoreEl.textContent=score+' / '+items.length;
-  }
-  stages.forEach((section,i)=>{
-    section.querySelectorAll('.option').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        if(answered[i])return;
-        answered[i]=true;
-        const selected=Number(btn.dataset.answer), correct=Number(items[i].correct);
-        section.querySelectorAll('.option').forEach((b,j)=>{if(j===correct)b.classList.add('correct');});
-        const feedback=section.querySelector('.feedback');
-        if(selected===correct){score++;btn.classList.add('correct');feedback.className='feedback show good';feedback.textContent='✓ Correct. '+(items[i].explanation||'');}
-        else{btn.classList.add('wrong');feedback.className='feedback show bad';feedback.textContent='Not quite. '+(items[i].explanation||'');}
-        scoreEl.textContent=score+' / '+items.length;
-      });
-    });
-  });
-  prev.addEventListener('click',()=>{if(stage>0)show(stage-1);});
-  next.addEventListener('click',()=>{
-    if(stage<items.length-1){show(stage+1);return;}
-    stages.forEach(s=>s.classList.remove('active'));complete.classList.add('active');next.disabled=true;bar.style.width='100%';scoreEl.textContent=score+' / '+items.length;
-    if(window.GHALabAnalytics)GHALabAnalytics.track('lesson_complete',{lesson_slug:slug,metadata:{score,total:items.length}});
-  });
-  show(0);
-}
-
-async function load(){
-  const root=document.getElementById('lesson');
-  if(!slug){root.className='error';root.textContent='No lesson selected.';return;}
-  try{
-    const r=await fetch(API+'?slug='+encodeURIComponent(slug),{headers:{Accept:'application/json'}});
-    if(!r.ok)throw new Error('Lesson service returned '+r.status);
-    const x=await r.json();
-    document.title=x.title+' · GHA Lab';
-    root.className='';
-    root.innerHTML=x.content_html+renderLab(x.interactive)+ '<div class="lesson-footer"><span>Back to</span><a href="index.html#learn">Learning Path</a></div>';
-    if(window.GHALabAnalytics)GHALabAnalytics.track('lesson_start',{lesson_slug:slug});
-    initLab(x.interactive);
-  }catch(e){
-    root.className='error';
-    root.textContent='Could not load this lesson: '+e.message;
-  }
-}
-load();
-</script>
-</body>
-</html>
+const API='https://tcenymmcidmtetggannf.supabase.co/functions/v1/content';const slug=new URLSearchParams(location.search).get('slug');const names={understand:'Understand',visualize:'Visualize',predict:'Predict',build:'Build',break:'Break',debug:'Debug',checkpoint:'Checkpoint'};
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function visual(v){if(!v?.nodes?.length)return '';return '<div class="visual"><div class="flow">'+v.nodes.map(n=>'<div class="node">'+esc(n)+'</div>').join('')+'</div><p class="hint">Follow the arrows. At each boundary ask: who owns this decision, what evidence can I inspect, and what changes next?</p></div>';}
+function render(items){return '<section class="interactive"><div class="head"><div><h2>Interactive learning lab</h2><p>Understand → Visualize → Predict → Build → Break → Debug → Checkpoint</p></div><strong id="score">0 / '+items.filter(x=>x.options).length+'</strong></div><div class="progress"><i id="bar"></i></div><div id="stagebar" class="stagebar"></div><div id="body" class="body"></div><div id="complete" class="complete"><h3>Lesson complete</h3><p>You predicted it, built it, broke it, debugged it, and explained it back.</p><a class="btn primary" href="index.html#challenges">Continue to Challenge Arena →</a></div></section>';}
+function init(items){const root=document.querySelector('.interactive'),body=root.querySelector('#body'),bar=root.querySelector('#bar'),scoreEl=root.querySelector('#score'),complete=root.querySelector('#complete'),stagebar=root.querySelector('#stagebar');let i=0,score=0;const answered={};stagebar.innerHTML=items.map((x,j)=>'<div class="stage-dot" data-i="'+j+'">'+String(j+1).padStart(2,'0')+' · '+esc(names[x.type]||x.type)+'</div>').join('');
+function draw(){const x=items[i];body.innerHTML='<section class="stage active"><div class="tag">'+esc(names[x.type]||x.type)+' · '+(i+1)+' / '+items.length+'</div><h3>'+esc(x.title||names[x.type]||'Stage')+'</h3><p class="prompt">'+esc(x.prompt)+'</p>'+visual(x.visual)+(x.options?'<div class="options">'+x.options.map((o,j)=>'<button class="option" data-j="'+j+'">'+esc(o)+'</button>').join('')+'</div><div class="feedback"></div>':'<div class="visual"><p class="hint">Take a moment to sketch the flow, perform the task in your own environment, and write down what you expect before continuing.</p></div>')+'<div class="actions"><button class="btn" id="prev" '+(i===0?'disabled':'')+'>← Previous</button><button class="btn primary" id="next">'+(i===items.length-1?'Finish lesson →':'Next →')+'</button></div></section>';stagebar.querySelectorAll('.stage-dot').forEach((d,j)=>{d.classList.toggle('active',j===i);d.classList.toggle('done',j<i)});bar.style.width=(items.length===1?100:(i/(items.length-1)*100))+'%';scoreEl.textContent=score+' / '+items.filter(x=>x.options).length;
+body.querySelectorAll('.option').forEach(btn=>btn.onclick=()=>{if(answered[i])return;answered[i]=true;const selected=+btn.dataset.j,correct=+(x.correctIndex??x.correct??0);body.querySelectorAll('.option').forEach((b,j)=>{if(j===correct)b.classList.add('correct')});const f=body.querySelector('.feedback');if(selected===correct){score++;btn.classList.add('correct');f.className='feedback show good';f.textContent='Correct. '+(x.explanation||'')}else{btn.classList.add('wrong');f.className='feedback show bad';f.textContent='Not quite. '+(x.explanation||'')}scoreEl.textContent=score+' / '+items.filter(x=>x.options).length});body.querySelector('#prev').onclick=()=>{if(i>0){i--;draw()}};body.querySelector('#next').onclick=()=>{if(i<items.length-1){i++;draw()}else{body.style.display='none';complete.classList.add('show');bar.style.width='100%';if(window.GHALabAnalytics)GHALabAnalytics.track('lesson_complete',{lesson_slug:slug,metadata:{score}})}};}draw();}
+async function load(){const root=document.getElementById('lesson');if(!slug){root.className='error';root.textContent='No lesson selected.';return}try{const r=await fetch(API+'?slug='+encodeURIComponent(slug),{headers:{Accept:'application/json'}});if(!r.ok)throw new Error('Lesson service returned '+r.status);const x=await r.json();document.title=x.title+' · DevOps Lab';root.innerHTML='<article class="content">'+x.content_html+'</article>'+render(x.interactive||[]);if(window.GHALabAnalytics)GHALabAnalytics.track('lesson_start',{lesson_slug:slug});init(x.interactive||[])}catch(e){root.className='error';root.textContent='Could not load this lesson: '+e.message}}load();
+</script></body></html>
