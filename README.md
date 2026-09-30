@@ -1,28 +1,32 @@
-# GitHub Actions Lab
+# DevOps Lab
 
-**Learn GitHub Actions by building, breaking, debugging, and understanding workflows.**
+**Learn modern infrastructure and delivery by building, breaking, debugging, and understanding systems.**
 
-GitHub Actions Lab is an open, practical learning playground for engineers who want to go beyond copying YAML. It focuses on understanding how workflows execute, how failures happen, and how to debug them.
+DevOps Lab is an open, practical learning playground for engineers who want to go beyond copying tutorials. It focuses on understanding how modern infrastructure and delivery systems work, how failures happen, and how to debug them.
 
 ## What is here?
 
-- **Learning path** — short, focused lessons from workflow foundations to security and production debugging
+- **Learning paths** — short, focused lessons across cloud, Kubernetes, CI/CD, IaC, GitOps, networking, security, observability, platform engineering, and SRE
 - **Interactive labs** — predict what happens, break a workflow, and diagnose the failure
 - **Challenge Arena** — scenario-based CI/CD problems rather than syntax memorization
 - **Dynamic content** — lessons, challenges, and references are served from Supabase rather than hardcoded into the public site
 - **Analytics dashboard** — admin-only usage insights for lessons, challenges, sessions, and optional visitor names
-- **Cheatsheet** — quick reference for everyday GitHub Actions work
+- **Cheatsheets and references** — practical references for everyday engineering work
 
-## Learning path
+## Initial learning areas
 
-1. Workflow foundations
-2. Execution and dependencies
-3. Expressions and contexts
-4. Matrix strategies, artifacts and caching
-5. Reusable workflows
-6. Environments and deployments
-7. Security and OIDC
-8. Production debugging
+1. Cloud
+2. Containers and Kubernetes
+3. CI/CD
+4. Infrastructure as Code
+5. GitOps
+6. Networking
+7. Security
+8. Observability
+9. Platform Engineering
+10. SRE and Reliability
+
+The first populated track is CI/CD, beginning with GitHub Actions. Additional tracks are designed to be added through the content backend without changing the public frontend.
 
 ## Design principle
 
@@ -46,7 +50,7 @@ The public interface is hosted on GitHub Pages.
 
 Supabase provides the backend layer:
 
-- PostgreSQL stores lessons, challenges, references, and analytics events
+- PostgreSQL stores learning tracks, lessons, challenges, references, and analytics events
 - Edge Functions serve dynamic content and challenge data
 - Supabase Auth protects the admin dashboard
 - The admin allowlist controls access to analytics
