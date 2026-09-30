@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DevOps Lab — Domain</title>
+<style>
+:root{--bg:#070a12;--panel:#0d1220;--panel2:#111827;--text:#eef2ff;--muted:#98a2b3;--line:#263044;--accent:#8b5cf6;--cyan:#22d3ee;--good:#34d399}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.6}a{color:inherit;text-decoration:none}.wrap{max-width:1100px;margin:auto;padding:0 24px}.nav{height:72px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{font-weight:850}.brand span{color:var(--cyan)}.back{color:var(--muted);font-size:14px}.hero{padding:70px 0 42px}.eyebrow{color:var(--cyan);font-size:12px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}.hero h1{font-size:clamp(42px,7vw,70px);line-height:1;letter-spacing:-.06em;margin:14px 0}.hero p{max-width:720px;color:var(--muted);font-size:18px}.box,.lesson{background:var(--panel);border:1px solid var(--line);border-radius:15px}.box{padding:22px}.method{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:24px 0}.step{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:15px}.step b{display:block;color:#c4b5fd;margin-bottom:5px}.step span{color:var(--muted);font-size:13px}.section{padding:38px 0}.section h2{font-size:30px;letter-spacing:-.04em;margin:0 0 6px}.intro{color:var(--muted);margin-top:0}.lessons{display:grid;gap:12px}.lesson{padding:20px;display:grid;grid-template-columns:52px 1fr auto;gap:15px;align-items:center;transition:.18s}.lesson:hover{border-color:var(--accent);transform:translateY(-1px)}.num{font-size:22px;font-weight:850;color:var(--accent)}.lesson h3{margin:0 0 3px}.lesson p{margin:0;color:var(--muted);font-size:14px}.meta{color:var(--muted);font-size:12px}.pill{border:1px solid var(--line);border-radius:999px;padding:5px 8px;font-size:10px}.empty{padding:25px;color:var(--muted);background:var(--panel);border:1px dashed var(--line);border-radius:12px}.footer{border-top:1px solid var(--line);padding:35px 0 60px;color:var(--muted);font-size:13px}@media(max-width:800px){.method{grid-template-columns:1fr}.lesson{grid-template-columns:42px 1fr}.pill{display:none}}
+</style>
+<script src="analytics.js"></script>
+</head>
+<body>
+<header class="wrap nav"><a class="brand" href="index.html">DevOps<span> Lab</span></a><a class="back" href="index.html#domains">← All domains</a></header>
+<main class="wrap">
+<section class="hero">
+<div class="eyebrow" id="category">DOMAIN</div>
+<h1 id="title">Loading…</h1>
+<p id="description">Loading the learning path…</p>
+</section>
+
+<section class="box">
+<h2>How to prepare</h2>
+<p class="intro">This lab is designed around the way practical engineering skills are built: understand the system first, then prove your understanding by changing it.</p>
+<div class="method">
+<div class="step"><b>01 · Understand</b><span>Build the mental model.</span></div>
+<div class="step"><b>02 · Map</b><span>Trace how the pieces connect.</span></div>
+<div class="step"><b>03 · Build</b><span>Do the hands-on task.</span></div>
+<div class="step"><b>04 · Break</b><span>Introduce a realistic failure.</span></div>
+<div class="step"><b>05 · Debug</b><span>Find the root cause from evidence.</span></div>
+</div>
+</section>
+
+<section class="section">
+<h2>Learning path</h2>
+<p class="intro" id="pathIntro">Lessons are loaded from the content database, so the path can keep growing without changing this page.</p>
+<div id="lessons" class="lessons"><div class="empty">Loading lessons…</div></div>
+</section>
+
+<section class="section">
+<div class="box">
+<h2>What comes after the lessons?</h2>
+<p class="intro">Once the concepts are familiar, move into scenario-based challenges. The goal is not to remember a definition — it is to look at a broken system and know where to start.</p>
+<a class="back" href="index.html#challenges">Go to Challenge Arena →</a>
+</div>
+</section>
+</main>
+<footer class="wrap footer">DevOps Lab · Learn by building, breaking and fixing.</footer>
+
+<script>
+const CONTENT_API='https://tcenymmcidmtetggannf.supabase.co/functions/v1/content';
+const params=new URLSearchParams(location.search);
+const domain=params.get('domain');
+async function load(){
+  const lessonsEl=document.getElementById('lessons');
+  if(!domain){document.getElementById('title').textContent='Choose a domain';lessonsEl.innerHTML='<div class="empty">No domain was selected. Return to the <a class="back" href="index.html#domains">domains</a>.</div>';return}
+  try{
+    const [tracksRes,lessonsRes]=await Promise.all([
+      fetch(CONTENT_API+'?type=tracks',{headers:{Accept:'application/json'}}),
+      fetch(CONTENT_API,{headers:{Accept:'application/json'}})
+    ]);
+    if(!tracksRes.ok||!lessonsRes.ok)throw new Error('Content service returned an error');
+    const tracks=await tracksRes.json();
+    const lessons=await lessonsRes.json();
+    const track=tracks.tracks.find(x=>x.slug===domain);
+    if(!track)throw new Error('Domain not found');
+    document.title='DevOps Lab — '+track.title;
+    document.getElementById('category').textContent=track.category;
+    document.getElementById('title').textContent=track.title;
+    document.getElementById('description').textContent=track.description;
+    const items=lessons.lessons.filter(x=>(x.domain||'ci-cd')===domain);
+    document.getElementById('pathIntro').textContent=items.length
+      ? items.length+' active lesson'+(items.length===1?'':'s')+' in this path. More can be added from the content database.'
+      : 'This path is ready for lessons. Content will be added progressively as the lab grows.';
+    lessonsEl.innerHTML='';
+    if(!items.length){lessonsEl.innerHTML='<div class="empty">No lessons yet. This domain is part of the platform roadmap and will be populated with practical, scenario-based material.</div>';return}
+    items.sort((a,b)=>(a.sort_order??99)-(b.sort_order??99));
+    items.forEach((lesson,i)=>{
+      const a=document.createElement('a');a.className='lesson';a.href='lesson.html?slug='+encodeURIComponent(lesson.slug);
+      a.innerHTML='<div class="num">'+String(i+1).padStart(2,'0')+'</div><div><h3></h3><p></p><div class="meta">'+lesson.duration_minutes+' min · Learn → Build → Break → Debug</div></div><span class="pill">'+(lesson.level||'LESSON').toUpperCase()+'</span>';
+      a.querySelector('h3').textContent=lesson.title;a.querySelector('p').textContent=lesson.description;lessonsEl.appendChild(a);
+    });
+  }catch(e){
+    document.getElementById('title').textContent='Unable to load this domain';
+    lessonsEl.innerHTML='<div class="empty">'+e.message+'. <a class="back" href="index.html#domains">Return to domains →</a></div>';
+  }
+}
+load();
+</script>
+</body>
+</html>
